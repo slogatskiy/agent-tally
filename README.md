@@ -38,10 +38,18 @@ open docs/index.html               # preview the widget
 
 ## Automation
 
-Runs on Konstantin's Mac Mini as a system LaunchDaemon (same convention as
-`vc-content-digest`), monthly, pushing to this repo. GitHub Pages serves `/docs`.
-Full setup — dedicated `comptally` user, SSH-over-Tailscale, credentials — is in
-[`deploy/macmini.md`](deploy/macmini.md).
+**Active scheduler: GitHub Actions** (`.github/workflows/monthly.yml`). Runs monthly
+(09:00 UTC on the 1st) entirely in GitHub's cloud — scrapes, rebuilds, and commits;
+GitHub Pages republishes `/docs`. No server to keep awake, no credentials to manage
+(uses the built-in `GITHUB_TOKEN`). Trigger a run any time from the repo's **Actions**
+tab → *Run workflow*.
+
+**Optional alternative — Mac Mini.** `run.sh` + `com.comptally.monthly.plist` +
+[`deploy/macmini.md`](deploy/macmini.md) run the same pipeline in-house on the Mini
+(same LaunchDaemon convention as `vc-content-digest`). Installing the LaunchDaemon
+needs one `sudo` step by a Mac admin; the scrape/build/push all run under a non-admin
+user via a repo-scoped deploy key. Use this only if you want it off GitHub's
+infrastructure — otherwise Actions is simpler and needs nothing.
 
 ## Notes
 
