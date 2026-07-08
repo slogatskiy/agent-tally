@@ -11,6 +11,8 @@ export PATH="$(pwd)/.venv/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/us
 export PYTHON="${PYTHON:-python3}"
 
 mkdir -p logs
+# Log to logs/run.log and still echo to stdout (so manual/daemon runs show output).
+exec > >(tee -a logs/run.log) 2>&1
 echo "=== run $(date '+%Y-%m-%d %H:%M:%S %z') ==="
 
 "$PYTHON" tally.py                 # updates COMP_Agent)Tally.xlsx (+ dated backup)
