@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+logs/
+*.bak
+COMP_Agent)Tally.xlsx.*.bak
+.DS_Store

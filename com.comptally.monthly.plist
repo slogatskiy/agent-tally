@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  LaunchDaemon: monthly Compass agent-tally run on the Mac Mini.
+  Same convention as com.vcdigest.weekly / com.bitrix.digest:
+    - system domain -> runs headless over SSH, no GUI login needed
+    - executes as a dedicated STANDARD user (comptally), so it sees the
+      project's .venv and git credentials
+    - secrets (git token) live in the git credential store, NOT in this plist;
+      here we only fix PATH.
+
+  Calls run.sh: scrape -> update xlsx -> rebuild HTML -> git commit & push.
+  GitHub Pages serves the refreshed widget within ~1 min of the push.
+
+  Time is LOCAL to the Mini (Europe/Podgorica, matching the other daemons).
+  Here: the 1st of every month at 09:00 local.
+
+  PATH default is stripped and lacks git/python — run.sh re-exports its own PATH
+  too, but we seed a sane one here as well.
+
+  Install (owner, once, with sudo):
+    sudo cp /Users/comptally/projects/agent-tally/com.comptally.monthly.plist /Library/LaunchDaemons/
+    sudo chown root:wheel /Library/LaunchDaemons/com.comptally.monthly.plist
+    sudo chmod 644        /Library/LaunchDaemons/com.comptally.monthly.plist
+    sudo launchctl bootstrap system /Library/LaunchDaemons/com.comptally.monthly.plist
+  Remove:  sudo launchctl bootout system /Library/LaunchDaemons/com.comptally.monthly.plist
+  Run now: sudo launchctl kickstart -k system/com.comptally.monthly
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.comptally.monthly</string>
+
+  <key>UserName</key>
+  <string>comptally</string>
+  <key>GroupName</key>
+  <string>staff</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/Users/comptally/projects/agent-tally/.venv/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/comptally/projects/agent-tally/run.sh</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>/Users/comptally/projects/agent-tally</string>
+
+  <key>StandardOutPath</key>
+  <string>/Users/comptally/projects/agent-tally/logs/daemon.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/comptally/projects/agent-tally/logs/daemon.err.log</string>
+
+  <!-- 1st of every month, 09:00 Mac-local (Europe/Podgorica). -->
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Day</key><integer>1</integer>
+    <key>Hour</key><integer>9</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <false/>
+  <key>KeepAlive</key>
+  <false/>
+</dict>
+</plist>

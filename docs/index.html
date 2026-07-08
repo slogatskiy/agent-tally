@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compass Agent Tally</title>
+<style>
+  :root {
+    --plane:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e;
+    --muted:#898781; --grid:#e1e0d9; --axis:#c3c2b7; --series:#2a78d6;
+    --up:#006300; --down:#c0392b; --border:rgba(11,11,11,0.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --plane:#0d0d0d; --surface:#1a1a19; --ink:#fff; --ink2:#c3c2b7;
+      --muted:#898781; --grid:#2c2c2a; --axis:#383835; --series:#3987e5;
+      --up:#0ca30c; --down:#e66767; --border:rgba(255,255,255,0.10);
+    }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--plane); color:var(--ink);
+    font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+  .wrap { max-width:1120px; margin:0 auto; padding:32px 20px 64px; }
+  header h1 { font-size:20px; margin:0 0 2px; letter-spacing:-.01em; }
+  header p { margin:0; color:var(--ink2); font-size:13px; }
+  .cards { display:flex; flex-wrap:wrap; gap:16px; margin:24px 0 8px; }
+  .card { background:var(--surface); border:1px solid var(--border);
+    border-radius:12px; padding:18px 20px; flex:1; min-width:180px; }
+  .card .label { font-size:12px; color:var(--muted); text-transform:uppercase;
+    letter-spacing:.06em; }
+  .card .value { font-size:32px; font-weight:650; margin-top:6px;
+    letter-spacing:-.02em; }
+  .hero-delta { font-size:14px; font-weight:550; }
+  .up { color:var(--up); } .down { color:var(--down); }
+  .flat { color:var(--muted); }
+  .chart-card { background:var(--surface); border:1px solid var(--border);
+    border-radius:12px; padding:20px; margin:16px 0 8px; }
+  .chart-card h2, section h2 { font-size:14px; margin:0 0 4px;
+    color:var(--ink2); font-weight:600; }
+  .chart-card .sub { font-size:12px; color:var(--muted); margin:0 0 12px; }
+  section { margin-top:32px; }
+  .scroll { overflow-x:auto; border:1px solid var(--border);
+    border-radius:12px; background:var(--surface); }
+  table { border-collapse:collapse; width:100%; font-size:13px; }
+  th,td { padding:7px 12px; text-align:left; white-space:nowrap; }
+  thead th { position:sticky; top:0; background:var(--surface);
+    color:var(--muted); font-weight:600; font-size:11px;
+    text-transform:uppercase; letter-spacing:.05em;
+    border-bottom:1px solid var(--axis); }
+  tbody tr { border-bottom:1px solid var(--grid); }
+  tbody tr:hover { background:rgba(42,120,214,0.06); }
+  .rowh { font-weight:500; }
+  .rowh a { color:var(--ink); text-decoration:none;
+    border-bottom:1px solid transparent; }
+  .rowh a:hover { border-bottom-color:var(--series); }
+  .num { text-align:right; font-variant-numeric:tabular-nums; }
+  .delta { text-align:right; font-variant-numeric:tabular-nums;
+    font-weight:550; font-size:12px; }
+  .spark { padding:4px 8px; }
+  tr.total { font-weight:700; border-top:2px solid var(--axis); }
+  tr.total td, tr.total th { background:var(--surface); }
+  .tabs { display:flex; gap:6px; margin-bottom:12px; }
+  .tab { padding:6px 14px; border:1px solid var(--border);
+    border-radius:999px; background:transparent; color:var(--ink2);
+    cursor:pointer; font:inherit; font-size:13px; }
+  .tab.active { background:var(--series); color:#fff; border-color:var(--series); }
+  footer { margin-top:40px; color:var(--muted); font-size:12px; }
+  footer a { color:var(--muted); }
+  .hidden { display:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Compass Agent Tally</h1>
+    <p>Compass, Inc. (COMP) self-reported real-estate agent headcount by state and
+       market · updated Jul 8, 2026</p>
+  </header>
+
+  <div class="cards">
+    <div class="card">
+      <div class="label">Total agents (states)</div>
+      <div class="value">34,896</div>
+      <div><span class='hero-delta up'>▲ +490 (+1.4%) vs prior</span></div>
+    </div>
+    <div class="card">
+      <div class="label">States tracked</div>
+      <div class="value">33</div>
+    </div>
+    <div class="card">
+      <div class="label">Markets tracked</div>
+      <div class="value">40</div>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <h2>Total agents over time</h2>
+    <p class="sub">Sum across all tracked states, per collection date.</p>
+    <svg id="trend" width="100%" height="220" preserveAspectRatio="none"></svg>
+  </div>
+
+  <section>
+    <div class="tabs">
+      <button class="tab active" data-tab="state">By State</button>
+      <button class="tab" data-tab="market">By Market</button>
+    </div>
+    <div id="tab-state">
+      <div class="scroll">
+    <table>
+      <thead><tr><th class='rowh'>Location</th><th>Trend</th><th class='num'>Sep 17, 2025</th><th class='num'>Nov 3, 2025</th><th class='num'>Nov 24, 2025</th><th class='num'>Dec 11, 2025</th><th class='num'>Dec 30, 2025</th><th class='num'>Apr 6, 2026</th><th class='num'>May 4, 2026</th><th class='num'>Jul 8, 2026</th>
+        <th class='num'>MoM</th></tr></thead>
+      <tbody><tr data-code='CA'><th class='rowh'><a href='https://www.compass.com/agents/locations/california/192319/' target='_blank' rel='noopener'>California</a></th><td class='spark'><svg data-spark='CA' width='72' height='22'></svg></td><td class='num'>8,385</td><td class='num'>8,424</td><td class='num'>8,461</td><td class='num'>8,431</td><td class='num'>8,325</td><td class='num'>8,334</td><td class='num'>8,336</td><td class='num'>8,417</td><td class="delta up">▲ +81</td></tr><tr data-code='NY'><th class='rowh'><a href='https://www.compass.com/agents/locations/new-york/192339/' target='_blank' rel='noopener'>New York</a></th><td class='spark'><svg data-spark='NY' width='72' height='22'></svg></td><td class='num'>3,427</td><td class='num'>3,431</td><td class='num'>3,440</td><td class='num'>3,434</td><td class='num'>3,412</td><td class='num'>3,396</td><td class='num'>3,406</td><td class='num'>3,416</td><td class="delta up">▲ +10</td></tr><tr data-code='FL'><th class='rowh'><a href='https://www.compass.com/agents/locations/florida/192324/' target='_blank' rel='noopener'>Florida</a></th><td class='spark'><svg data-spark='FL' width='72' height='22'></svg></td><td class='num'>2,885</td><td class='num'>2,936</td><td class='num'>2,963</td><td class='num'>2,968</td><td class='num'>2,970</td><td class='num'>3,006</td><td class='num'>3,031</td><td class='num'>3,267</td><td class="delta up">▲ +236</td></tr><tr data-code='TX'><th class='rowh'><a href='https://www.compass.com/agents/locations/texas/192345/' target='_blank' rel='noopener'>Texas</a></th><td class='spark'><svg data-spark='TX' width='72' height='22'></svg></td><td class='num'>3,074</td><td class='num'>3,064</td><td class='num'>3,066</td><td class='num'>3,090</td><td class='num'>3,082</td><td class='num'>3,127</td><td class='num'>3,174</td><td class='num'>3,174</td><td class="delta flat">0</td></tr><tr data-code='IL'><th class='rowh'><a href='https://www.compass.com/agents/locations/illinois/192327/' target='_blank' rel='noopener'>Illinois</a></th><td class='spark'><svg data-spark='IL' width='72' height='22'></svg></td><td class='num'>1,744</td><td class='num'>1,743</td><td class='num'>1,745</td><td class='num'>1,754</td><td class='num'>1,759</td><td class='num'>1,750</td><td class='num'>1,745</td><td class='num'>1,753</td><td class="delta up">▲ +8</td></tr><tr data-code='MD'><th class='rowh'><a href='https://www.compass.com/agents/locations/maryland/192330/' target='_blank' rel='noopener'>Maryland</a></th><td class='spark'><svg data-spark='MD' width='72' height='22'></svg></td><td class='num'>1,296</td><td class='num'>1,304</td><td class='num'>1,298</td><td class='num'>1,290</td><td class='num'>1,291</td><td class='num'>1,311</td><td class='num'>1,322</td><td class='num'>1,319</td><td class="delta down">▼ -3</td></tr><tr data-code='MA'><th class='rowh'><a href='https://www.compass.com/agents/locations/massachusetts/192329/' target='_blank' rel='noopener'>Massachusetts</a></th><td class='spark'><svg data-spark='MA' width='72' height='22'></svg></td><td class='num'>1,329</td><td class='num'>1,323</td><td class='num'>1,318</td><td class='num'>1,315</td><td class='num'>1,305</td><td class='num'>1,279</td><td class='num'>1,278</td><td class='num'>1,297</td><td class="delta up">▲ +19</td></tr><tr data-code='TN'><th class='rowh'><a href='https://www.compass.com/agents/locations/tennessee/192344/' target='_blank' rel='noopener'>Tennessee</a></th><td class='spark'><svg data-spark='TN' width='72' height='22'></svg></td><td class='num'>1,274</td><td class='num'>1,297</td><td class='num'>1,304</td><td class='num'>1,300</td><td class='num'>1,293</td><td class='num'>1,276</td><td class='num'>1,282</td><td class='num'>1,294</td><td class="delta up">▲ +12</td></tr><tr data-code='CO'><th class='rowh'><a href='https://www.compass.com/agents/locations/colorado/192320/' target='_blank' rel='noopener'>Colorado</a></th><td class='spark'><svg data-spark='CO' width='72' height='22'></svg></td><td class='num'>1,122</td><td class='num'>1,203</td><td class='num'>1,203</td><td class='num'>1,214</td><td class='num'>1,211</td><td class='num'>1,233</td><td class='num'>1,233</td><td class='num'>1,248</td><td class="delta up">▲ +15</td></tr><tr data-code='PA'><th class='rowh'><a href='https://www.compass.com/agents/locations/pennsylvania/192342/' target='_blank' rel='noopener'>Pennsylvania</a></th><td class='spark'><svg data-spark='PA' width='72' height='22'></svg></td><td class='num'>1,224</td><td class='num'>1,228</td><td class='num'>1,214</td><td class='num'>1,215</td><td class='num'>1,199</td><td class='num'>1,198</td><td class='num'>1,216</td><td class='num'>1,223</td><td class="delta up">▲ +7</td></tr><tr data-code='LA'><th class='rowh'><a href='https://www.compass.com/agents/locations/louisiana/291195/' target='_blank' rel='noopener'>Louisiana</a></th><td class='spark'><svg data-spark='LA' width='72' height='22'></svg></td><td class='num'>1,214</td><td class='num'>1,214</td><td class='num'>1,213</td><td class='num'>1,203</td><td class='num'>1,183</td><td class='num'>1,100</td><td class='num'>1,098</td><td class='num'>1,086</td><td class="delta down">▼ -12</td></tr><tr data-code='WA'><th class='rowh'><a href='https://www.compass.com/agents/locations/washington/192347/' target='_blank' rel='noopener'>Washington</a></th><td class='spark'><svg data-spark='WA' width='72' height='22'></svg></td><td class='num'>902</td><td class='num'>931</td><td class='num'>932</td><td class='num'>938</td><td class='num'>921</td><td class='num'>923</td><td class='num'>925</td><td class='num'>934</td><td class="delta up">▲ +9</td></tr><tr data-code='VA'><th class='rowh'><a href='https://www.compass.com/agents/locations/virginia-va/30573/' target='_blank' rel='noopener'>Virginia</a></th><td class='spark'><svg data-spark='VA' width='72' height='22'></svg></td><td class='num'>902</td><td class='num'>899</td><td class='num'>912</td><td class='num'>908</td><td class='num'>906</td><td class='num'>909</td><td class='num'>905</td><td class='num'>902</td><td class="delta down">▼ -3</td></tr><tr data-code='NJ'><th class='rowh'><a href='https://www.compass.com/agents/locations/new-jersey/192336/' target='_blank' rel='noopener'>New Jersey</a></th><td class='spark'><svg data-spark='NJ' width='72' height='22'></svg></td><td class='num'>852</td><td class='num'>865</td><td class='num'>865</td><td class='num'>868</td><td class='num'>859</td><td class='num'>860</td><td class='num'>864</td><td class='num'>863</td><td class="delta down">▼ -1</td></tr><tr data-code='NC'><th class='rowh'><a href='https://www.compass.com/agents/locations/north-carolina/192335/' target='_blank' rel='noopener'>North Carolina</a></th><td class='spark'><svg data-spark='NC' width='72' height='22'></svg></td><td class='num'>687</td><td class='num'>698</td><td class='num'>706</td><td class='num'>707</td><td class='num'>704</td><td class='num'>701</td><td class='num'>699</td><td class='num'>734</td><td class="delta up">▲ +35</td></tr><tr data-code='AZ'><th class='rowh'><a href='https://www.compass.com/agents/locations/arizona/192318/' target='_blank' rel='noopener'>Arizona</a></th><td class='spark'><svg data-spark='AZ' width='72' height='22'></svg></td><td class='num'>519</td><td class='num'>545</td><td class='num'>551</td><td class='num'>555</td><td class='num'>556</td><td class='num'>603</td><td class='num'>603</td><td class='num'>634</td><td class="delta up">▲ +31</td></tr><tr data-code='CT'><th class='rowh'><a href='https://www.compass.com/agents/locations/connecticut/192321/' target='_blank' rel='noopener'>Connecticut</a></th><td class='spark'><svg data-spark='CT' width='72' height='22'></svg></td><td class='num'>499</td><td class='num'>501</td><td class='num'>506</td><td class='num'>505</td><td class='num'>497</td><td class='num'>514</td><td class='num'>513</td><td class='num'>506</td><td class="delta down">▼ -7</td></tr><tr data-code='GA'><th class='rowh'><a href='https://www.compass.com/agents/locations/georgia/192325/' target='_blank' rel='noopener'>Georgia</a></th><td class='spark'><svg data-spark='GA' width='72' height='22'></svg></td><td class='num'>428</td><td class='num'>433</td><td class='num'>440</td><td class='num'>441</td><td class='num'>443</td><td class='num'>467</td><td class='num'>476</td><td class='num'>488</td><td class="delta up">▲ +12</td></tr><tr data-code='MO'><th class='rowh'><a href='https://www.compass.com/agents/locations/missouri/192333/' target='_blank' rel='noopener'>Missouri</a></th><td class='spark'><svg data-spark='MO' width='72' height='22'></svg></td><td class='num'>374</td><td class='num'>371</td><td class='num'>371</td><td class='num'>372</td><td class='num'>371</td><td class='num'>377</td><td class='num'>375</td><td class='num'>378</td><td class="delta up">▲ +3</td></tr><tr data-code='HI'><th class='rowh'><a href='https://www.compass.com/agents/locations/hawaii/192326/' target='_blank' rel='noopener'>Hawaii</a></th><td class='spark'><svg data-spark='HI' width='72' height='22'></svg></td><td class='num'>298</td><td class='num'>304</td><td class='num'>309</td><td class='num'>304</td><td class='num'>300</td><td class='num'>304</td><td class='num'>303</td><td class='num'>308</td><td class="delta up">▲ +5</td></tr><tr data-code='KS'><th class='rowh'><a href='https://www.compass.com/agents/locations/kansas/286476/' target='_blank' rel='noopener'>Kansas</a></th><td class='spark'><svg data-spark='KS' width='72' height='22'></svg></td><td class='num'>283</td><td class='num'>277</td><td class='num'>277</td><td class='num'>277</td><td class='num'>276</td><td class='num'>282</td><td class='num'>282</td><td class='num'>284</td><td class="delta up">▲ +2</td></tr><tr data-code='WI'><th class='rowh'><a href='https://www.compass.com/agents/locations/wisconsin/192348/' target='_blank' rel='noopener'>Wisconsin</a></th><td class='spark'><svg data-spark='WI' width='72' height='22'></svg></td><td class='num'>240</td><td class='num'>243</td><td class='num'>246</td><td class='num'>246</td><td class='num'>249</td><td class='num'>254</td><td class='num'>258</td><td class='num'>261</td><td class="delta up">▲ +3</td></tr><tr data-code='DE'><th class='rowh'><a href='https://www.compass.com/agents/locations/delaware/192323/' target='_blank' rel='noopener'>Delaware</a></th><td class='spark'><svg data-spark='DE' width='72' height='22'></svg></td><td class='num'>263</td><td class='num'>267</td><td class='num'>261</td><td class='num'>261</td><td class='num'>260</td><td class='num'>257</td><td class='num'>258</td><td class='num'>260</td><td class="delta up">▲ +2</td></tr><tr data-code='MN'><th class='rowh'><a href='https://www.compass.com/agents/locations/minnesota/192332/' target='_blank' rel='noopener'>Minnesota</a></th><td class='spark'><svg data-spark='MN' width='72' height='22'></svg></td><td class='num'>171</td><td class='num'>170</td><td class='num'>170</td><td class='num'>170</td><td class='num'>195</td><td class='num'>197</td><td class='num'>202</td><td class='num'>210</td><td class="delta up">▲ +8</td></tr><tr data-code='SC'><th class='rowh'><a href='https://www.compass.com/agents/locations/south-carolina/192343/' target='_blank' rel='noopener'>South Carolina</a></th><td class='spark'><svg data-spark='SC' width='72' height='22'></svg></td><td class='num'>158</td><td class='num'>161</td><td class='num'>162</td><td class='num'>162</td><td class='num'>164</td><td class='num'>171</td><td class='num'>172</td><td class='num'>173</td><td class="delta up">▲ +1</td></tr><tr data-code='IN'><th class='rowh'><a href='https://www.compass.com/agents/locations/indiana/192328/' target='_blank' rel='noopener'>Indiana</a></th><td class='spark'><svg data-spark='IN' width='72' height='22'></svg></td><td class='num'>125</td><td class='num'>131</td><td class='num'>131</td><td class='num'>131</td><td class='num'>128</td><td class='num'>132</td><td class='num'>136</td><td class='num'>139</td><td class="delta up">▲ +3</td></tr><tr data-code='NV'><th class='rowh'><a href='https://www.compass.com/agents/locations/nevada/192338/' target='_blank' rel='noopener'>Nevada</a></th><td class='spark'><svg data-spark='NV' width='72' height='22'></svg></td><td class='num'>66</td><td class='num'>61</td><td class='num'>62</td><td class='num'>63</td><td class='num'>64</td><td class='num'>68</td><td class='num'>71</td><td class='num'>80</td><td class="delta up">▲ +9</td></tr><tr data-code='WY'><th class='rowh'><a href='https://www.compass.com/agents/locations/wyoming/301168/' target='_blank' rel='noopener'>Wyoming</a></th><td class='spark'><svg data-spark='WY' width='72' height='22'></svg></td><td class='num'>80</td><td class='num'>80</td><td class='num'>80</td><td class='num'>80</td><td class='num'>78</td><td class='num'>78</td><td class='num'>77</td><td class='num'>75</td><td class="delta down">▼ -2</td></tr><tr data-code='ID'><th class='rowh'><a href='https://www.compass.com/agents/locations/idaho/301167/' target='_blank' rel='noopener'>Idaho</a></th><td class='spark'><svg data-spark='ID' width='72' height='22'></svg></td><td class='num'>53</td><td class='num'>54</td><td class='num'>55</td><td class='num'>56</td><td class='num'>60</td><td class='num'>64</td><td class='num'>64</td><td class='num'>70</td><td class="delta up">▲ +6</td></tr><tr data-code='NH'><th class='rowh'><a href='https://www.compass.com/agents/locations/new-hampshire/203613/' target='_blank' rel='noopener'>New Hampshire</a></th><td class='spark'><svg data-spark='NH' width='72' height='22'></svg></td><td class='num'>71</td><td class='num'>67</td><td class='num'>70</td><td class='num'>67</td><td class='num'>67</td><td class='num'>63</td><td class='num'>62</td><td class='num'>64</td><td class="delta up">▲ +2</td></tr><tr data-code='MS'><th class='rowh'><a href='https://www.compass.com/agents/locations/mississippi/192334/' target='_blank' rel='noopener'>Mississippi</a></th><td class='spark'><svg data-spark='MS' width='72' height='22'></svg></td><td class='num'>34</td><td class='num'>34</td><td class='num'>33</td><td class='num'>34</td><td class='num'>35</td><td class='num'>35</td><td class='num'>30</td><td class='num'>29</td><td class="delta down">▼ -1</td></tr><tr data-code='ME'><th class='rowh'><a href='https://www.compass.com/agents/locations/maine/203612/' target='_blank' rel='noopener'>Maine</a></th><td class='spark'><svg data-spark='ME' width='72' height='22'></svg></td><td class='num'>16</td><td class='num'>14</td><td class='num'>14</td><td class='num'>14</td><td class='num'>14</td><td class='num'>10</td><td class='num'>10</td><td class='num'>10</td><td class="delta flat">0</td></tr><tr data-code='OR'><th class='rowh'><a href='https://www.compass.com/agents/locations/oregon/192341/' target='_blank' rel='noopener'>Oregon</a></th><td class='spark'><svg data-spark='OR' width='72' height='22'></svg></td><td class='num'>2</td><td class='num'>2</td><td class='num'>2</td><td class='num'>2</td><td class='num'>2</td><td class='num'>0</td><td class='num'>0</td><td class='num'>0</td><td class="delta flat">0</td></tr><tr class='total'><th class='rowh'>Total</th><td class='spark'></td><td class='num'>33,997</td><td class='num'>34,275</td><td class='num'>34,380</td><td class='num'>34,375</td><td class='num'>34,179</td><td class='num'>34,279</td><td class='num'>34,406</td><td class='num'>34,896</td><td class="delta up">▲ +490</td></tr></tbody>
+    </table></div>
+    </div>
+    <div id="tab-market" class="hidden">
+      <div class="scroll">
+    <table>
+      <thead><tr><th class='rowh'>Location</th><th>Trend</th><th class='num'>Jul 8, 2026</th>
+        <th class='num'>MoM</th></tr></thead>
+      <tbody><tr data-code='new-york-ny'><th class='rowh'><a href='https://www.compass.com/agents/locations/new-york-ny/21429/' target='_blank' rel='noopener'>New York</a></th><td class='spark'><svg data-spark='new-york-ny' width='72' height='22'></svg></td><td class='num'>2,463</td><td class="delta"></td></tr><tr data-code='los-angeles-ca'><th class='rowh'><a href='https://www.compass.com/agents/locations/los-angeles-ca/12902/' target='_blank' rel='noopener'>Los Angeles</a></th><td class='spark'><svg data-spark='los-angeles-ca' width='72' height='22'></svg></td><td class='num'>1,580</td><td class="delta"></td></tr><tr data-code='austin-tx'><th class='rowh'><a href='https://www.compass.com/agents/locations/austin-tx/42626/' target='_blank' rel='noopener'>Austin</a></th><td class='spark'><svg data-spark='austin-tx' width='72' height='22'></svg></td><td class='num'>1,218</td><td class="delta"></td></tr><tr data-code='chicago-il'><th class='rowh'><a href='https://www.compass.com/agents/locations/chicago-il/37237/' target='_blank' rel='noopener'>Chicago</a></th><td class='spark'><svg data-spark='chicago-il' width='72' height='22'></svg></td><td class='num'>1,203</td><td class="delta"></td></tr><tr data-code='washington-dc'><th class='rowh'><a href='https://www.compass.com/agents/locations/washington-dc/30230/' target='_blank' rel='noopener'>Washington</a></th><td class='spark'><svg data-spark='washington-dc' width='72' height='22'></svg></td><td class='num'>1,001</td><td class="delta"></td></tr><tr data-code='nashville-tn'><th class='rowh'><a href='https://www.compass.com/agents/locations/nashville-tn/27781/' target='_blank' rel='noopener'>Nashville</a></th><td class='spark'><svg data-spark='nashville-tn' width='72' height='22'></svg></td><td class='num'>982</td><td class="delta"></td></tr><tr data-code='orange-county-ca'><th class='rowh'><a href='https://www.compass.com/agents/locations/orange-county-ca/13970/' target='_blank' rel='noopener'>Orange County</a></th><td class='spark'><svg data-spark='orange-county-ca' width='72' height='22'></svg></td><td class='num'>946</td><td class="delta"></td></tr><tr data-code='miami-fl'><th class='rowh'><a href='https://www.compass.com/agents/locations/miami-fl/35648/' target='_blank' rel='noopener'>Miami</a></th><td class='spark'><svg data-spark='miami-fl' width='72' height='22'></svg></td><td class='num'>924</td><td class="delta"></td></tr><tr data-code='san-diego-ca'><th class='rowh'><a href='https://www.compass.com/agents/locations/san-diego-ca/20243/' target='_blank' rel='noopener'>San Diego</a></th><td class='spark'><svg data-spark='san-diego-ca' width='72' height='22'></svg></td><td class='num'>922</td><td class="delta"></td></tr><tr data-code='san-francisco-ca'><th class='rowh'><a href='https://www.compass.com/agents/locations/san-francisco-ca/44474/' target='_blank' rel='noopener'>San Francisco</a></th><td class='spark'><svg data-spark='san-francisco-ca' width='72' height='22'></svg></td><td class='num'>921</td><td class="delta"></td></tr><tr data-code='dallas-tx'><th class='rowh'><a href='https://www.compass.com/agents/locations/dallas-tx/40435/' target='_blank' rel='noopener'>Dallas</a></th><td class='spark'><svg data-spark='dallas-tx' width='72' height='22'></svg></td><td class='num'>798</td><td class="delta"></td></tr><tr data-code='philadelphia-pa'><th class='rowh'><a href='https://www.compass.com/agents/locations/philadelphia-pa/14527/' target='_blank' rel='noopener'>Philadelphia</a></th><td class='spark'><svg data-spark='philadelphia-pa' width='72' height='22'></svg></td><td class='num'>617</td><td class="delta"></td></tr><tr data-code='seattle-wa'><th class='rowh'><a href='https://www.compass.com/agents/locations/seattle-wa/9962/' target='_blank' rel='noopener'>Seattle</a></th><td class='spark'><svg data-spark='seattle-wa' width='72' height='22'></svg></td><td class='num'>535</td><td class="delta"></td></tr><tr data-code='westchester-county-ny'><th class='rowh'><a href='https://www.compass.com/agents/locations/westchester-county-ny/780/' target='_blank' rel='noopener'>Westchester County</a></th><td class='spark'><svg data-spark='westchester-county-ny' width='72' height='22'></svg></td><td class='num'>472</td><td class="delta"></td></tr><tr data-code='bellevue-wa'><th class='rowh'><a href='https://www.compass.com/agents/locations/bellevue-wa/9972/' target='_blank' rel='noopener'>Bellevue</a></th><td class='spark'><svg data-spark='bellevue-wa' width='72' height='22'></svg></td><td class='num'>380</td><td class="delta"></td></tr><tr data-code='fort-worth-tx'><th class='rowh'><a href='https://www.compass.com/agents/locations/fort-worth-tx/40574/' target='_blank' rel='noopener'>Fort Worth</a></th><td class='spark'><svg data-spark='fort-worth-tx' width='72' height='22'></svg></td><td class='num'>329</td><td class="delta"></td></tr><tr data-code='naples-fl'><th class='rowh'><a href='https://www.compass.com/agents/locations/naples-fl/21583/' target='_blank' rel='noopener'>Naples</a></th><td class='spark'><svg data-spark='naples-fl' width='72' height='22'></svg></td><td class='num'>309</td><td class="delta"></td></tr><tr data-code='tampa-fl'><th class='rowh'><a href='https://www.compass.com/agents/locations/tampa-fl/33352/' target='_blank' rel='noopener'>Tampa</a></th><td class='spark'><svg data-spark='tampa-fl' width='72' height='22'></svg></td><td class='num'>299</td><td class="delta"></td></tr><tr data-code='hawaii-hi'><th class='rowh'><a href='https://www.compass.com/agents/locations/hawaii-hi/32341/' target='_blank' rel='noopener'>Hawaii</a></th><td class='spark'><svg data-spark='hawaii-hi' width='72' height='22'></svg></td><td class='num'>298</td><td class="delta"></td></tr><tr data-code='raleigh-nc'><th class='rowh'><a href='https://www.compass.com/agents/locations/raleigh-nc/11232/' target='_blank' rel='noopener'>Raleigh</a></th><td class='spark'><svg data-spark='raleigh-nc' width='72' height='22'></svg></td><td class='num'>287</td><td class="delta"></td></tr><tr data-code='kansas-city-mo'><th class='rowh'><a href='https://www.compass.com/agents/locations/kansas-city-mo/286659/' target='_blank' rel='noopener'>Kansas City</a></th><td class='spark'><svg data-spark='kansas-city-mo' width='72' height='22'></svg></td><td class='num'>256</td><td class="delta"></td></tr><tr data-code='boulder-co'><th class='rowh'><a href='https://www.compass.com/agents/locations/boulder-co/16175/' target='_blank' rel='noopener'>Boulder</a></th><td class='spark'><svg data-spark='boulder-co' width='72' height='22'></svg></td><td class='num'>242</td><td class="delta"></td></tr><tr data-code='orlando-fl'><th class='rowh'><a href='https://www.compass.com/agents/locations/orlando-fl/39022/' target='_blank' rel='noopener'>Orlando</a></th><td class='spark'><svg data-spark='orlando-fl' width='72' height='22'></svg></td><td class='num'>182</td><td class="delta"></td></tr><tr data-code='the-hamptons-ny'><th class='rowh'><a href='https://www.compass.com/agents/locations/the-hamptons-ny/19874/' target='_blank' rel='noopener'>The Hamptons</a></th><td class='spark'><svg data-spark='the-hamptons-ny' width='72' height='22'></svg></td><td class='num'>180</td><td class="delta"></td></tr><tr data-code='denver-co'><th class='rowh'><a href='https://www.compass.com/agents/locations/denver-co/28907/' target='_blank' rel='noopener'>Denver</a></th><td class='spark'><svg data-spark='denver-co' width='72' height='22'></svg></td><td class='num'>164</td><td class="delta"></td></tr><tr data-code='pittsburgh-pa'><th class='rowh'><a href='https://www.compass.com/agents/locations/pittsburgh-pa/26675/' target='_blank' rel='noopener'>Pittsburgh</a></th><td class='spark'><svg data-spark='pittsburgh-pa' width='72' height='22'></svg></td><td class='num'>163</td><td class="delta"></td></tr><tr data-code='durham-nc'><th class='rowh'><a href='https://www.compass.com/agents/locations/durham-nc/11215/' target='_blank' rel='noopener'>Durham</a></th><td class='spark'><svg data-spark='durham-nc' width='72' height='22'></svg></td><td class='num'>144</td><td class="delta"></td></tr><tr data-code='santa-barbara-ca'><th class='rowh'><a href='https://www.compass.com/agents/locations/santa-barbara-ca/17456/' target='_blank' rel='noopener'>Santa Barbara</a></th><td class='spark'><svg data-spark='santa-barbara-ca' width='72' height='22'></svg></td><td class='num'>140</td><td class="delta"></td></tr><tr data-code='lake-tahoe-ca'><th class='rowh'><a href='https://www.compass.com/agents/locations/lake-tahoe-ca/315001/' target='_blank' rel='noopener'>Lake Tahoe</a></th><td class='spark'><svg data-spark='lake-tahoe-ca' width='72' height='22'></svg></td><td class='num'>121</td><td class="delta"></td></tr><tr data-code='atlanta-ga'><th class='rowh'><a href='https://www.compass.com/agents/locations/atlanta-ga/12627/' target='_blank' rel='noopener'>Atlanta</a></th><td class='spark'><svg data-spark='atlanta-ga' width='72' height='22'></svg></td><td class='num'>118</td><td class="delta"></td></tr><tr data-code='montecito-ca'><th class='rowh'><a href='https://www.compass.com/agents/locations/montecito-ca/17434/' target='_blank' rel='noopener'>Montecito</a></th><td class='spark'><svg data-spark='montecito-ca' width='72' height='22'></svg></td><td class='num'>93</td><td class="delta"></td></tr><tr data-code='jackson-wy'><th class='rowh'><a href='https://www.compass.com/agents/locations/jackson-wy/301212/' target='_blank' rel='noopener'>Jackson</a></th><td class='spark'><svg data-spark='jackson-wy' width='72' height='22'></svg></td><td class='num'>75</td><td class="delta"></td></tr><tr data-code='jacksonville-fl'><th class='rowh'><a href='https://www.compass.com/agents/locations/jacksonville-fl/2801/' target='_blank' rel='noopener'>Jacksonville</a></th><td class='spark'><svg data-spark='jacksonville-fl' width='72' height='22'></svg></td><td class='num'>60</td><td class="delta"></td></tr><tr data-code='aspen-co'><th class='rowh'><a href='https://www.compass.com/agents/locations/aspen-co/24050/' target='_blank' rel='noopener'>Aspen</a></th><td class='spark'><svg data-spark='aspen-co' width='72' height='22'></svg></td><td class='num'>52</td><td class="delta"></td></tr><tr data-code='vail-co'><th class='rowh'><a href='https://www.compass.com/agents/locations/vail-co/24036/' target='_blank' rel='noopener'>Vail</a></th><td class='spark'><svg data-spark='vail-co' width='72' height='22'></svg></td><td class='num'>25</td><td class="delta"></td></tr><tr data-code='milwaukee-wi'><th class='rowh'><a href='https://www.compass.com/agents/locations/milwaukee-wi/289205/' target='_blank' rel='noopener'>Milwaukee</a></th><td class='spark'><svg data-spark='milwaukee-wi' width='72' height='22'></svg></td><td class='num'>13</td><td class="delta"></td></tr><tr data-code='telluride-co'><th class='rowh'><a href='https://www.compass.com/agents/locations/telluride-co/36404/' target='_blank' rel='noopener'>Telluride</a></th><td class='spark'><svg data-spark='telluride-co' width='72' height='22'></svg></td><td class='num'>6</td><td class="delta"></td></tr><tr data-code='baltimore-md'><th class='rowh'><a href='https://www.compass.com/agents/locations/baltimore-md/14250/' target='_blank' rel='noopener'>Baltimore</a></th><td class='spark'><svg data-spark='baltimore-md' width='72' height='22'></svg></td><td class='num'>2</td><td class="delta"></td></tr><tr data-code='boston-ma'><th class='rowh'><a href='https://www.compass.com/agents/locations/boston-ma/10545/' target='_blank' rel='noopener'>Boston</a></th><td class='spark'><svg data-spark='boston-ma' width='72' height='22'></svg></td><td class='num'>2</td><td class="delta"></td></tr><tr data-code='houston-tx'><th class='rowh'><a href='https://www.compass.com/agents/locations/houston-tx/39869/' target='_blank' rel='noopener'>Houston</a></th><td class='spark'><svg data-spark='houston-tx' width='72' height='22'></svg></td><td class='num'>0</td><td class="delta"></td></tr><tr class='total'><th class='rowh'>Total</th><td class='spark'></td><td class='num'>18,522</td><td class="delta"></td></tr></tbody>
+    </table></div>
+    </div>
+  </section>
+
+  <footer>
+    Data scraped from <a href="https://www.compass.com/agents/locations/"
+    target="_blank" rel="noopener">compass.com</a> · figures are Compass's own
+    counts · generated Jul 8, 2026 · auto-updated monthly.
+  </footer>
+</div>
+
+<script id="data" type="application/json">{"stateDates": ["2025-09-17", "2025-11-03", "2025-11-24", "2025-12-11", "2025-12-30", "2026-04-06", "2026-05-04", "2026-07-08"], "stateTotals": [33997, 34275, 34380, 34375, 34179, 34279, 34406, 34896], "stateRows": [{"code": "CA", "counts": [8385, 8424, 8461, 8431, 8325, 8334, 8336, 8417]}, {"code": "CO", "counts": [1122, 1203, 1203, 1214, 1211, 1233, 1233, 1248]}, {"code": "FL", "counts": [2885, 2936, 2963, 2968, 2970, 3006, 3031, 3267]}, {"code": "HI", "counts": [298, 304, 309, 304, 300, 304, 303, 308]}, {"code": "IL", "counts": [1744, 1743, 1745, 1754, 1759, 1750, 1745, 1753]}, {"code": "KS", "counts": [283, 277, 277, 277, 276, 282, 282, 284]}, {"code": "MA", "counts": [1329, 1323, 1318, 1315, 1305, 1279, 1278, 1297]}, {"code": "MD", "counts": [1296, 1304, 1298, 1290, 1291, 1311, 1322, 1319]}, {"code": "MO", "counts": [374, 371, 371, 372, 371, 377, 375, 378]}, {"code": "NC", "counts": [687, 698, 706, 707, 704, 701, 699, 734]}, {"code": "NJ", "counts": [852, 865, 865, 868, 859, 860, 864, 863]}, {"code": "NV", "counts": [66, 61, 62, 63, 64, 68, 71, 80]}, {"code": "NY", "counts": [3427, 3431, 3440, 3434, 3412, 3396, 3406, 3416]}, {"code": "PA", "counts": [1224, 1228, 1214, 1215, 1199, 1198, 1216, 1223]}, {"code": "TX", "counts": [3074, 3064, 3066, 3090, 3082, 3127, 3174, 3174]}, {"code": "VA", "counts": [902, 899, 912, 908, 906, 909, 905, 902]}, {"code": "WA", "counts": [902, 931, 932, 938, 921, 923, 925, 934]}, {"code": "WI", "counts": [240, 243, 246, 246, 249, 254, 258, 261]}, {"code": "WY", "counts": [80, 80, 80, 80, 78, 78, 77, 75]}, {"code": "OR", "counts": [2, 2, 2, 2, 2, 0, 0, 0]}, {"code": "ID", "counts": [53, 54, 55, 56, 60, 64, 64, 70]}, {"code": "AZ", "counts": [519, 545, 551, 555, 556, 603, 603, 634]}, {"code": "TN", "counts": [1274, 1297, 1304, 1300, 1293, 1276, 1282, 1294]}, {"code": "MN", "counts": [171, 170, 170, 170, 195, 197, 202, 210]}, {"code": "LA", "counts": [1214, 1214, 1213, 1203, 1183, 1100, 1098, 1086]}, {"code": "MS", "counts": [34, 34, 33, 34, 35, 35, 30, 29]}, {"code": "IN", "counts": [125, 131, 131, 131, 128, 132, 136, 139]}, {"code": "GA", "counts": [428, 433, 440, 441, 443, 467, 476, 488]}, {"code": "SC", "counts": [158, 161, 162, 162, 164, 171, 172, 173]}, {"code": "DE", "counts": [263, 267, 261, 261, 260, 257, 258, 260]}, {"code": "CT", "counts": [499, 501, 506, 505, 497, 514, 513, 506]}, {"code": "NH", "counts": [71, 67, 70, 67, 67, 63, 62, 64]}, {"code": "ME", "counts": [16, 14, 14, 14, 14, 10, 10, 10]}], "marketRows": [{"code": "aspen-co", "counts": [52]}, {"code": "atlanta-ga", "counts": [118]}, {"code": "austin-tx", "counts": [1218]}, {"code": "baltimore-md", "counts": [2]}, {"code": "bellevue-wa", "counts": [380]}, {"code": "boston-ma", "counts": [2]}, {"code": "boulder-co", "counts": [242]}, {"code": "chicago-il", "counts": [1203]}, {"code": "dallas-tx", "counts": [798]}, {"code": "denver-co", "counts": [164]}, {"code": "durham-nc", "counts": [144]}, {"code": "fort-worth-tx", "counts": [329]}, {"code": "the-hamptons-ny", "counts": [180]}, {"code": "hawaii-hi", "counts": [298]}, {"code": "houston-tx", "counts": [0]}, {"code": "jackson-wy", "counts": [75]}, {"code": "jacksonville-fl", "counts": [60]}, {"code": "kansas-city-mo", "counts": [256]}, {"code": "lake-tahoe-ca", "counts": [121]}, {"code": "los-angeles-ca", "counts": [1580]}, {"code": "miami-fl", "counts": [924]}, {"code": "milwaukee-wi", "counts": [13]}, {"code": "montecito-ca", "counts": [93]}, {"code": "naples-fl", "counts": [309]}, {"code": "nashville-tn", "counts": [982]}, {"code": "new-york-ny", "counts": [2463]}, {"code": "orange-county-ca", "counts": [946]}, {"code": "orlando-fl", "counts": [182]}, {"code": "philadelphia-pa", "counts": [617]}, {"code": "pittsburgh-pa", "counts": [163]}, {"code": "raleigh-nc", "counts": [287]}, {"code": "san-diego-ca", "counts": [922]}, {"code": "san-francisco-ca", "counts": [921]}, {"code": "santa-barbara-ca", "counts": [140]}, {"code": "seattle-wa", "counts": [535]}, {"code": "tampa-fl", "counts": [299]}, {"code": "telluride-co", "counts": [6]}, {"code": "vail-co", "counts": [25]}, {"code": "washington-dc", "counts": [1001]}, {"code": "westchester-county-ny", "counts": [472]}]}</script>
+<script>
+const D = JSON.parse(document.getElementById('data').textContent);
+const css = k => getComputedStyle(document.body).getPropertyValue(k).trim();
+
+function sparkline(svg, counts) {
+  const pts = counts.map((v,i)=>[i,v]).filter(p=>p[1]!=null);
+  if (pts.length < 2) return;
+  const w=+svg.getAttribute('width'), h=+svg.getAttribute('height'), pad=3;
+  const xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]);
+  const x0=Math.min(...xs), x1=Math.max(...xs);
+  const y0=Math.min(...ys), y1=Math.max(...ys);
+  const sx=i=>pad+(x1===x0?0:(i-x0)/(x1-x0))*(w-2*pad);
+  const sy=v=>h-pad-(y1===y0?(h-2*pad)/2:(v-y0)/(y1-y0)*(h-2*pad));
+  const d=pts.map((p,i)=>(i?'L':'M')+sx(p[0]).toFixed(1)+' '+sy(p[1]).toFixed(1)).join(' ');
+  const up = pts[pts.length-1][1] >= pts[0][1];
+  const col = up ? css('--up') : css('--down');
+  svg.innerHTML =
+    `<path d="${d}" fill="none" stroke="${col}" stroke-width="1.5"/>`+
+    `<circle cx="${sx(pts[pts.length-1][0]).toFixed(1)}" `+
+    `cy="${sy(pts[pts.length-1][1]).toFixed(1)}" r="2" fill="${col}"/>`;
+}
+document.querySelectorAll('svg[data-spark]').forEach(svg=>{
+  const code=svg.getAttribute('data-spark');
+  const row=[...D.stateRows,...D.marketRows].find(r=>String(r.code)===code);
+  if(row) sparkline(svg,row.counts);
+});
+
+function trend() {
+  const svg=document.getElementById('trend');
+  const W=svg.clientWidth||900, H=220, L=54,R=16,T=16,B=34;
+  const dates=D.stateDates, vals=D.stateTotals;
+  const idx=vals.map((v,i)=>[i,v]).filter(p=>p[1]!=null);
+  if(idx.length<2){svg.innerHTML='';return;}
+  const ys=idx.map(p=>p[1]);
+  let lo=Math.min(...ys), hi=Math.max(...ys); const padv=(hi-lo)*0.15||1;
+  lo-=padv; hi+=padv;
+  const sx=i=>L+i/(dates.length-1)*(W-L-R);
+  const sy=v=>T+(1-(v-lo)/(hi-lo))*(H-T-B);
+  const ink2=css('--ink2'), muted=css('--muted'), grid=css('--grid'),
+        series=css('--series'), surf=css('--surface');
+  let g='';
+  const ticks=4;
+  for(let t=0;t<=ticks;t++){
+    const val=lo+(hi-lo)*t/ticks, y=sy(val);
+    g+=`<line x1="${L}" y1="${y.toFixed(1)}" x2="${W-R}" y2="${y.toFixed(1)}" stroke="${grid}" stroke-width="1"/>`;
+    g+=`<text x="${L-8}" y="${(y+3).toFixed(1)}" text-anchor="end" font-size="11" fill="${muted}">${Math.round(val).toLocaleString()}</text>`;
+  }
+  dates.forEach((dd,i)=>{
+    const lab=new Date(dd+'T00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    g+=`<text x="${sx(i).toFixed(1)}" y="${H-12}" text-anchor="middle" font-size="11" fill="${muted}">${lab}</text>`;
+  });
+  const dpath=idx.map((p,i)=>(i?'L':'M')+sx(p[0]).toFixed(1)+' '+sy(p[1]).toFixed(1)).join(' ');
+  g+=`<path d="${dpath}" fill="none" stroke="${series}" stroke-width="2"/>`;
+  idx.forEach(p=>{
+    g+=`<circle cx="${sx(p[0]).toFixed(1)}" cy="${sy(p[1]).toFixed(1)}" r="3.5" fill="${series}" stroke="${surf}" stroke-width="2"/>`;
+  });
+  const last=idx[idx.length-1];
+  g+=`<text x="${(sx(last[0])-6).toFixed(1)}" y="${(sy(last[1])-9).toFixed(1)}" text-anchor="end" font-size="12" font-weight="600" fill="${ink2}">${last[1].toLocaleString()}</text>`;
+  svg.innerHTML=g;
+}
+trend();
+addEventListener('resize',trend);
+
+document.querySelectorAll('.tab').forEach(btn=>btn.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const t=btn.dataset.tab;
+  document.getElementById('tab-state').classList.toggle('hidden',t!=='state');
+  document.getElementById('tab-market').classList.toggle('hidden',t!=='market');
+});
+</script>
+</body>
+</html>
