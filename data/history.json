@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-01",
+  "generated": "2026-09-01",
   "source": "compass.com/agents/locations",
   "by_state": {
     "dates": [
@@ -11,7 +11,8 @@
       "2026-04-06",
       "2026-05-04",
       "2026-07-08",
-      "2026-08-01"
+      "2026-08-01",
+      "2026-09-01"
     ],
     "rows": [
       {
@@ -26,7 +27,8 @@
           8334,
           8336,
           8417,
-          8451
+          8451,
+          8462
         ],
         "url": "https://www.compass.com/agents/locations/california/192319/"
       },
@@ -42,7 +44,8 @@
           1233,
           1233,
           1248,
-          1246
+          1246,
+          1222
         ],
         "url": "https://www.compass.com/agents/locations/colorado/192320/"
       },
@@ -58,7 +61,8 @@
           3006,
           3031,
           3267,
-          3281
+          3281,
+          3277
         ],
         "url": "https://www.compass.com/agents/locations/florida/192324/"
       },
@@ -74,7 +78,8 @@
           304,
           303,
           308,
-          313
+          313,
+          315
         ],
         "url": "https://www.compass.com/agents/locations/hawaii/192326/"
       },
@@ -90,7 +95,8 @@
           1750,
           1745,
           1753,
-          1762
+          1762,
+          1763
         ],
         "url": "https://www.compass.com/agents/locations/illinois/192327/"
       },
@@ -106,6 +112,7 @@
           282,
           282,
           284,
+          282,
           282
         ],
         "url": "https://www.compass.com/agents/locations/kansas/286476/"
@@ -122,7 +129,8 @@
           1279,
           1278,
           1297,
-          1304
+          1304,
+          1302
         ],
         "url": "https://www.compass.com/agents/locations/massachusetts/192329/"
       },
@@ -138,7 +146,8 @@
           1311,
           1322,
           1319,
-          1327
+          1327,
+          1315
         ],
         "url": "https://www.compass.com/agents/locations/maryland/192330/"
       },
@@ -154,7 +163,8 @@
           377,
           375,
           378,
-          377
+          377,
+          376
         ],
         "url": "https://www.compass.com/agents/locations/missouri/192333/"
       },
@@ -170,7 +180,8 @@
           701,
           699,
           734,
-          731
+          731,
+          735
         ],
         "url": "https://www.compass.com/agents/locations/north-carolina/192335/"
       },
@@ -186,7 +197,8 @@
           860,
           864,
           863,
-          881
+          881,
+          879
         ],
         "url": "https://www.compass.com/agents/locations/new-jersey/192336/"
       },
@@ -201,6 +213,7 @@
           64,
           68,
           71,
+          80,
           80,
           80
         ],
@@ -218,7 +231,8 @@
           3396,
           3406,
           3416,
-          3426
+          3426,
+          3440
         ],
         "url": "https://www.compass.com/agents/locations/new-york/192339/"
       },
@@ -234,7 +248,8 @@
           1198,
           1216,
           1223,
-          1229
+          1229,
+          1239
         ],
         "url": "https://www.compass.com/agents/locations/pennsylvania/192342/"
       },
@@ -250,7 +265,8 @@
           3127,
           3174,
           3174,
-          3244
+          3244,
+          3266
         ],
         "url": "https://www.compass.com/agents/locations/texas/192345/"
       },
@@ -266,7 +282,8 @@
           909,
           905,
           902,
-          897
+          897,
+          889
         ],
         "url": "https://www.compass.com/agents/locations/virginia-va/30573/"
       },
@@ -282,7 +299,8 @@
           923,
           925,
           934,
-          930
+          930,
+          939
         ],
         "url": "https://www.compass.com/agents/locations/washington/192347/"
       },
@@ -298,7 +316,8 @@
           254,
           258,
           261,
-          260
+          260,
+          256
         ],
         "url": "https://www.compass.com/agents/locations/wisconsin/192348/"
       },
@@ -314,7 +333,8 @@
           78,
           77,
           75,
-          78
+          78,
+          77
         ],
         "url": "https://www.compass.com/agents/locations/wyoming/301168/"
       },
@@ -330,6 +350,7 @@
           0,
           0,
           0,
+          1,
           1
         ],
         "url": "https://www.compass.com/agents/locations/oregon/192341/"
@@ -346,6 +367,7 @@
           64,
           64,
           70,
+          72,
           72
         ],
         "url": "https://www.compass.com/agents/locations/idaho/301167/"
@@ -362,7 +384,8 @@
           603,
           603,
           634,
-          635
+          635,
+          630
         ],
         "url": "https://www.compass.com/agents/locations/arizona/192318/"
       },
@@ -378,7 +401,8 @@
           1276,
           1282,
           1294,
-          1310
+          1310,
+          1324
         ],
         "url": "https://www.compass.com/agents/locations/tennessee/192344/"
       },
@@ -394,7 +418,8 @@
           197,
           202,
           210,
-          212
+          212,
+          216
         ],
         "url": "https://www.compass.com/agents/locations/minnesota/192332/"
       },
@@ -410,7 +435,8 @@
           1100,
           1098,
           1086,
-          1074
+          1074,
+          1061
         ],
         "url": "https://www.compass.com/agents/locations/louisiana/291195/"
       },
@@ -426,7 +452,8 @@
           35,
           30,
           29,
-          29
+          29,
+          26
         ],
         "url": "https://www.compass.com/agents/locations/mississippi/192334/"
       },
@@ -442,7 +469,8 @@
           132,
           136,
           139,
-          141
+          141,
+          144
         ],
         "url": "https://www.compass.com/agents/locations/indiana/192328/"
       },
@@ -458,7 +486,8 @@
           467,
           476,
           488,
-          486
+          486,
+          498
         ],
         "url": "https://www.compass.com/agents/locations/georgia/192325/"
       },
@@ -474,7 +503,8 @@
           171,
           172,
           173,
-          175
+          175,
+          177
         ],
         "url": "https://www.compass.com/agents/locations/south-carolina/192343/"
       },
@@ -490,7 +520,8 @@
           257,
           258,
           260,
-          269
+          269,
+          271
         ],
         "url": "https://www.compass.com/agents/locations/delaware/192323/"
       },
@@ -506,7 +537,8 @@
           514,
           513,
           506,
-          507
+          507,
+          510
         ],
         "url": "https://www.compass.com/agents/locations/connecticut/192321/"
       },
@@ -522,7 +554,8 @@
           63,
           62,
           64,
-          65
+          65,
+          64
         ],
         "url": "https://www.compass.com/agents/locations/new-hampshire/203613/"
       },
@@ -538,7 +571,8 @@
           10,
           10,
           10,
-          10
+          10,
+          12
         ],
         "url": "https://www.compass.com/agents/locations/maine/203612/"
       }
@@ -552,19 +586,22 @@
       34279,
       34406,
       34896,
-      35085
+      35085,
+      35120
     ]
   },
   "by_market": {
     "dates": [
       "2026-07-08",
-      "2026-08-01"
+      "2026-08-01",
+      "2026-09-01"
     ],
     "rows": [
       {
         "code": "aspen-co",
         "name": "Aspen",
         "counts": [
+          52,
           52,
           52
         ],
@@ -575,7 +612,8 @@
         "name": "Atlanta",
         "counts": [
           118,
-          118
+          118,
+          116
         ],
         "url": "https://www.compass.com/agents/locations/atlanta-ga/12627/"
       },
@@ -584,7 +622,8 @@
         "name": "Austin",
         "counts": [
           1218,
-          1231
+          1231,
+          1250
         ],
         "url": "https://www.compass.com/agents/locations/austin-tx/42626/"
       },
@@ -592,6 +631,7 @@
         "code": "baltimore-md",
         "name": "Baltimore",
         "counts": [
+          2,
           2,
           2
         ],
@@ -602,6 +642,7 @@
         "name": "Bellevue",
         "counts": [
           380,
+          378,
           378
         ],
         "url": "https://www.compass.com/agents/locations/bellevue-wa/9972/"
@@ -610,6 +651,7 @@
         "code": "boston-ma",
         "name": "Boston",
         "counts": [
+          2,
           2,
           2
         ],
@@ -620,7 +662,8 @@
         "name": "Boulder",
         "counts": [
           242,
-          240
+          240,
+          243
         ],
         "url": "https://www.compass.com/agents/locations/boulder-co/16175/"
       },
@@ -629,7 +672,8 @@
         "name": "Chicago",
         "counts": [
           1203,
-          1211
+          1211,
+          1215
         ],
         "url": "https://www.compass.com/agents/locations/chicago-il/37237/"
       },
@@ -638,7 +682,8 @@
         "name": "Dallas",
         "counts": [
           798,
-          832
+          832,
+          835
         ],
         "url": "https://www.compass.com/agents/locations/dallas-tx/40435/"
       },
@@ -647,7 +692,8 @@
         "name": "Denver",
         "counts": [
           164,
-          169
+          169,
+          173
         ],
         "url": "https://www.compass.com/agents/locations/denver-co/28907/"
       },
@@ -656,7 +702,8 @@
         "name": "Durham",
         "counts": [
           144,
-          146
+          146,
+          148
         ],
         "url": "https://www.compass.com/agents/locations/durham-nc/11215/"
       },
@@ -665,7 +712,8 @@
         "name": "Fort Worth",
         "counts": [
           329,
-          332
+          332,
+          343
         ],
         "url": "https://www.compass.com/agents/locations/fort-worth-tx/40574/"
       },
@@ -674,7 +722,8 @@
         "name": "The Hamptons",
         "counts": [
           180,
-          179
+          179,
+          178
         ],
         "url": "https://www.compass.com/agents/locations/the-hamptons-ny/19874/"
       },
@@ -683,7 +732,8 @@
         "name": "Hawaii",
         "counts": [
           298,
-          298
+          298,
+          296
         ],
         "url": "https://www.compass.com/agents/locations/hawaii-hi/32341/"
       },
@@ -691,6 +741,7 @@
         "code": "houston-tx",
         "name": "Houston",
         "counts": [
+          0,
           0,
           0
         ],
@@ -701,7 +752,8 @@
         "name": "Jackson",
         "counts": [
           75,
-          78
+          78,
+          77
         ],
         "url": "https://www.compass.com/agents/locations/jackson-wy/301212/"
       },
@@ -710,7 +762,8 @@
         "name": "Jacksonville",
         "counts": [
           60,
-          60
+          60,
+          61
         ],
         "url": "https://www.compass.com/agents/locations/jacksonville-fl/2801/"
       },
@@ -719,7 +772,8 @@
         "name": "Kansas City",
         "counts": [
           256,
-          256
+          256,
+          255
         ],
         "url": "https://www.compass.com/agents/locations/kansas-city-mo/286659/"
       },
@@ -728,6 +782,7 @@
         "name": "Lake Tahoe",
         "counts": [
           121,
+          120,
           120
         ],
         "url": "https://www.compass.com/agents/locations/lake-tahoe-ca/315001/"
@@ -737,7 +792,8 @@
         "name": "Los Angeles",
         "counts": [
           1580,
-          1589
+          1589,
+          1591
         ],
         "url": "https://www.compass.com/agents/locations/los-angeles-ca/12902/"
       },
@@ -746,7 +802,8 @@
         "name": "Miami",
         "counts": [
           924,
-          932
+          932,
+          930
         ],
         "url": "https://www.compass.com/agents/locations/miami-fl/35648/"
       },
@@ -754,6 +811,7 @@
         "code": "milwaukee-wi",
         "name": "Milwaukee",
         "counts": [
+          13,
           13,
           13
         ],
@@ -764,6 +822,7 @@
         "name": "Montecito",
         "counts": [
           93,
+          94,
           94
         ],
         "url": "https://www.compass.com/agents/locations/montecito-ca/17434/"
@@ -773,6 +832,7 @@
         "name": "Naples",
         "counts": [
           309,
+          310,
           310
         ],
         "url": "https://www.compass.com/agents/locations/naples-fl/21583/"
@@ -782,7 +842,8 @@
         "name": "Nashville",
         "counts": [
           982,
-          999
+          999,
+          1008
         ],
         "url": "https://www.compass.com/agents/locations/nashville-tn/27781/"
       },
@@ -791,7 +852,8 @@
         "name": "New York",
         "counts": [
           2463,
-          2470
+          2470,
+          2481
         ],
         "url": "https://www.compass.com/agents/locations/new-york-ny/21429/"
       },
@@ -800,7 +862,8 @@
         "name": "Orange County",
         "counts": [
           946,
-          945
+          945,
+          939
         ],
         "url": "https://www.compass.com/agents/locations/orange-county-ca/13970/"
       },
@@ -809,7 +872,8 @@
         "name": "Orlando",
         "counts": [
           182,
-          184
+          184,
+          183
         ],
         "url": "https://www.compass.com/agents/locations/orlando-fl/39022/"
       },
@@ -818,7 +882,8 @@
         "name": "Philadelphia",
         "counts": [
           617,
-          624
+          624,
+          628
         ],
         "url": "https://www.compass.com/agents/locations/philadelphia-pa/14527/"
       },
@@ -827,7 +892,8 @@
         "name": "Pittsburgh",
         "counts": [
           163,
-          165
+          165,
+          168
         ],
         "url": "https://www.compass.com/agents/locations/pittsburgh-pa/26675/"
       },
@@ -836,7 +902,8 @@
         "name": "Raleigh",
         "counts": [
           287,
-          289
+          289,
+          288
         ],
         "url": "https://www.compass.com/agents/locations/raleigh-nc/11232/"
       },
@@ -845,7 +912,8 @@
         "name": "San Diego",
         "counts": [
           922,
-          925
+          925,
+          937
         ],
         "url": "https://www.compass.com/agents/locations/san-diego-ca/20243/"
       },
@@ -854,6 +922,7 @@
         "name": "San Francisco",
         "counts": [
           921,
+          929,
           929
         ],
         "url": "https://www.compass.com/agents/locations/san-francisco-ca/44474/"
@@ -863,7 +932,8 @@
         "name": "Santa Barbara",
         "counts": [
           140,
-          141
+          141,
+          142
         ],
         "url": "https://www.compass.com/agents/locations/santa-barbara-ca/17456/"
       },
@@ -872,7 +942,8 @@
         "name": "Seattle",
         "counts": [
           535,
-          535
+          535,
+          537
         ],
         "url": "https://www.compass.com/agents/locations/seattle-wa/9962/"
       },
@@ -881,7 +952,8 @@
         "name": "Tampa",
         "counts": [
           299,
-          299
+          299,
+          298
         ],
         "url": "https://www.compass.com/agents/locations/tampa-fl/33352/"
       },
@@ -889,6 +961,7 @@
         "code": "telluride-co",
         "name": "Telluride",
         "counts": [
+          6,
           6,
           6
         ],
@@ -899,6 +972,7 @@
         "name": "Vail",
         "counts": [
           25,
+          26,
           26
         ],
         "url": "https://www.compass.com/agents/locations/vail-co/24036/"
@@ -908,7 +982,8 @@
         "name": "Washington",
         "counts": [
           1001,
-          1006
+          1006,
+          1002
         ],
         "url": "https://www.compass.com/agents/locations/washington-dc/30230/"
       },
@@ -917,14 +992,16 @@
         "name": "Westchester County",
         "counts": [
           472,
-          475
+          475,
+          479
         ],
         "url": "https://www.compass.com/agents/locations/westchester-county-ny/780/"
       }
     ],
     "totals": [
       18522,
-      18660
+      18660,
+      18733
     ]
   }
 }
